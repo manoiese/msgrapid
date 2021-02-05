@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>ttt</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="x-ua-compatible" content="ie=11" />
+    <script src="jquery.min.js"></script>
+    <style>
+    html, body{
+        color:#000;
+    background: #c4cede;
+    background: -webkit-linear-gradient(#c4cede, #dce5f2);
+
+        background: -o-linear-gradient(#c4cede, #dce5f2);
+        background: -moz-linear-gradient(#c4cede, #dce5f2);
+        background: linear-gradient(#c4cede, #dce5f2);
+        padding:0px;
+        margin:0px;
+    height: 100%;
+        }
+
+    .aaaa{
+        overflow: hidden;
+        position: relative;
+        background-color:#ece0e0;
+        width:1wv;
+        border-style:solid;
+        border-color:#FF0000;
+        border-radius:8px;
+        border-width: 1px;
+        padding:0px;
+        margin:5px;
+        box-shadow: 3px 3px 3px #888;
+        }
+    .aaab{
+        overflow: hidden;
+        position: relative;
+        background-color:#e2ece0;
+        width:1wv;
+        border-style:solid;
+        border-color:#009900;
+        border-radius:8px;
+        border-width: 1px;
+        padding:0px;
+        margin:5px;
+        box-shadow: 3px 3px 3px #888;
+        }
+    .bbb{
+        float: left;
+        overflow: hidden;
+        display: inline;
+        width:calc(100% - 40px);
+        border-right:solid 1px;
+        padding:5px;
+        margin:0px;
+        text-align:left;
+
+        }
+    .ccca{
+        width:39px;
+        background:#caa6a6;
+        float:center;
+        display:inline;
+        margin:0px;
+        height: 100%;
+        overflow: auto;
+        position: absolute;
+	cursor: pointer;
+font-weight: bold;
+color:red;
+align-items: center;
+text-align: center;
+vertical-align:center;
+        }
+    .cccb{
+        width:39px;
+        background:#adcaa6;
+        float:center;
+        display:inline;
+        margin:0px;
+        height: 100%;
+        overflow: auto;
+        position: absolute;
+	cursor: pointer;
+font-weight: bold;
+color:red;
+align-items: center;
+text-align: center;
+vertical-align:center;
+        }
+    h3{
+        padding:0px;
+        margin:0px;
+        font-size:14;
+    }
+    span {
+        border-style: none;
+	font-size:30px;
+        }
+    pre{
+            font-size:14;
+    }
+
+    </style>
+    <script>
+        function addElement(parentId, elementTag, elementId, html) {
+            // para adicionar a mensagem
+            var p = document.getElementById(parentId);
+            var newElement = document.createElement(elementTag);
+            newElement.setAttribute('id', elementId);
+            newElement.innerHTML = html;
+            p.appendChild(newElement);
+        }
+    
+        function removeElement(elementId, ids, servidorr) {
+        // para remover a msg
+        var element = document.getElementById(elementId);
+        element.parentNode.removeChild(element);
+            $.post( servidorr, { id: ids } );
+        }
+    </script>
+    
+    
+</head>
+<body>
+
+<div id="console"></div>
+
+<script>
+    function carregar(tag,server,serverr){
+        
+        //gera numero para não utilizar arquivo de cache
+	var drr = new Date();
+	var nrr = drr.getTime();
+    
+            //cria conecção com um json externo ou no proprio servidor
+        $.getJSON( server + "?" + nrr, function( dados ) {
+            
+                //verifica a quantidade de respostas capturadas e entra no loop
+            for(var i = 0; i < dados.num; i++){
+                    //se o elemento nao existir ele o cria
+                if(!document.getElementById(tag + dados.msg[i].id)){
+                        //cria o elemento
+                    addElement("console", "div", tag + dados.msg[i].id, "<div class=\"aaa" + tag + "\"><div class=\"bbb\"><H3>" + dados.msg[i].nome + "</H3>" + dados.msg[i].message + "</div><a onClick=\"removeElement('" + tag + dados.msg[i].id + "','" + dados.msg[i].id + "','" + serverr + "');\"><div class=\"ccc" + tag + "\"><span>X</span></div></div></a>");
+
+}}});
+};
+carregar("a","server.php","remove.php");
+carregar("b","server2.php","remove2.php");
+setInterval( function() { carregar("a","server.php","remove.php"); }, 10000 );
+setInterval( function() { carregar("b","server2.php","remove2.php"); }, 30000 );
+</script>
+</body>
+</html>
